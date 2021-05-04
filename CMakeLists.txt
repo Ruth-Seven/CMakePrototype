@@ -17,6 +17,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 
     INCLUDE(CTest)
 
+    # docs build
     find_package(Doxygen)
     if(Doxygen_FOUND)
         add_subdirectory(docs)
@@ -60,7 +61,7 @@ add_subdirectory(include/jtest)
 
 
 if((CMAKE_PROJECT_NAME STREQUAL  PROJECT_NAME AND BUILD_TESTS))
-    add_subdirectory(tests)
+    add_subdirectory(test)
     
 endif()
 

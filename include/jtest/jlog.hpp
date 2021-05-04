@@ -10,7 +10,7 @@
 #else
 
 #define LOG(fmt, args...) { \
-    printf("[%s: %s: %s]", __FILE__, __func__, __PERTTY_FUNCTION__); \
+    printf("[%s: %s]", __FILE__, __func__); \
     printf(fmt, ##args); \
     printf("\n"); \
 }

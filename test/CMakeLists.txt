@@ -1,6 +1,6 @@
 # Testing library
-incldue(GoogleTest)
-FetchContent(
+include(GoogleTest)
+FetchContent_Declare(
     GoogleTest 
     GIT_REPOSITORY  https://github.com/google/googletest.git
     GIT_TAG release-1.10.0
@@ -14,7 +14,12 @@ add_executable(maintest test.cpp)
 target_compile_features(maintest PRIVATE cxx_std_11)
 
 # Should be linked to the main library, as well as the GoogleTest testing library
-target_link_libraries(maintest PRIVATET GoogleTest)
+# target_link_libraries(maintest PRIVATE GoogleTest)
+target_link_libraries(maintest PRIVATE libjtest) # 使用自定义 测试框架
+target_link_libraries(maintest PRIVATE main_library) # 添加测试函数的库
+target_include_directories(maintest PRIVATE ../include)
+target_include_directories(maintest PRIVATE ../src)
+
 
 
 # If you register a test, then ctest and make test will run it.
