@@ -19,22 +19,3 @@ source_group(
   TREE "${PROJECT_SOURCE_DIR}/include"
   PREFIX "Header Files"
   FILES ${JTEST_HEADER_LIST} ${MY_HEADER_LIST} )
-
-## 运行
-
-编译
-```shell
-rm build -rf
-cmake -S . -B build -D BUILD_TESTS=1 
-cmake --build build  
-```
-> `BUILD_TESTS`： `cmake`进行测试相关构建
-
-使用自定义测试框架：
-```shell
-./build/test/maintest
-```
-运行主程序：
-```shell
-./build/apps/app
-```

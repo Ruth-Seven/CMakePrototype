@@ -1,11 +1,9 @@
-
 #include <iostream>
 #include <vector>
 #include <string>
 #include <map>
 #include <functional>
 #include "jtest/jtest.hpp"
-
 #include "jtest/jlog.hpp"
 // #include "gtest/gtest.h"
 #include "add.hxx"
@@ -13,8 +11,8 @@ using namespace std;
 
 
 // 单元测试样例
-TEST(HelloTest1, ADD1){
-    LOG("test1")
+TEST(HelloTest5, ADD1){
+    LOG("test5")
 	EXPECT_EQ(ADD1(3,4), 7);
 	EXPECT_NE(ADD1(3,4), 6);
 	EXPECT_LT(ADD1(3,4), 8);
@@ -24,8 +22,8 @@ TEST(HelloTest1, ADD1){
 
 }
 
-TEST(HelloTest2, ADD2){
-    LOG("test2")
+TEST(HelloTest6, ADD2){
+    LOG("test6")
 	EXPECT_EQ(ADD2(3,4), 7);
 	EXPECT_NE(ADD2(3,4), 6);
 	EXPECT_LT(ADD2(3,4), 3);
@@ -35,8 +33,8 @@ TEST(HelloTest2, ADD2){
 
 }
 
-TEST(HelloTest3, ADD3){
-    LOG("test3")
+TEST(HelloTest7, ADD3){
+    LOG("test7")
 	EXPECT_EQ(ADD3(3,4), 7);
 	EXPECT_NE(ADD3(3,4), 6);
 	EXPECT_LT(ADD3(3,4), 3);
@@ -46,8 +44,8 @@ TEST(HelloTest3, ADD3){
 
 }
 
-TEST(HelloTest4, ADD4){
-    LOG("test4")
+TEST(HelloTest8, ADD4){
+    LOG("test8")
 	EXPECT_EQ(ADD4(3,4), 7);
 	EXPECT_NE(ADD4(3,4), 6);
 	EXPECT_LT(ADD4(3,4), 3);
@@ -57,10 +55,4 @@ TEST(HelloTest4, ADD4){
 
 }
 
-int main(){
 
-	
-	printf("\033[4;34;mBegin test!\n\033[0m");
-	// testing::InitGoogleTest();
-	return RUN_ALL_TESTS();
-}

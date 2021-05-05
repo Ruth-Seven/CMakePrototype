@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <ctime>
 #include <cstring>
-#include "jlog.hpp"
+#include <tuple>
 
 
 
@@ -21,9 +21,12 @@
 
 #define EXPECT_CMP(a, cmp, b) { \
     if(!(a cmp b)){ \
-        printf(YELLOW("[ Failure ]\n")); \
+        printf("\t%s\n", FAILURE); \
         printf(YELLOW("\t %s:%d"), __FILE__, __LINE__); \
-        printf(YELLOW("\t\tExpected: %s %s %s, actual %d vs %d\n"), #a, #cmp, #b, a, b);\
+        printf(YELLOW("\t\tExpected: (%s %s %s), actual %d vs %d\n"), #a, #cmp, #b, a, b);\
+        /*通过在头文件引入外部变量，解决标志值问题。倘若在头文件定义变量则会有静态（文件链接）变量备份不唯一，或者非静态（外部链接）变量多重定义的问题*/ \
+        extern int testflag;\
+        testflag = 0;\
     } \
 }
 #define EXPECT_EQ(a, b) EXPECT_CMP(a, ==, b)
@@ -47,37 +50,56 @@ void INVOKE_##a##_##b(){ \
     /*printf("@@@@%s %p\n", name, name); */  \
     add_funcdata(TEST_FUNC_NAME(a, b), name); \
 } \
- __attribute__((destructor)) /*为单元测试函数声明注销函数*/ \
-void UNINVOKE_##a##_##b(){ \
-    delete_funcdata(); \
-} \
 void TEST_FUNC_NAME(a, b)() 
 
 //void __attribute__((destructor)) calledLast(); 
 // This particular GCC syntax, when used with a function, executes the same function at the startup of the program, i.e before main() function.
 
-static int curtest = 0;
 
-static const int MAXTEST = 1000;
+
+// Link node struct
 struct FuncData{
     // 函数指针数组
-    void (*funcarr[MAXTEST])(); // [] > * funcarr首先是个数组，其次是指针
-    char *funcname[MAXTEST];
+    void (*func)(); // [] > * funcarr首先是个数组，其次是指针
+    char *funcname;
+    FuncData* next;
+
+    FuncData(void (*func)(), char* name);
+    ~FuncData();
 };
-static FuncData data;
+
+struct FuncInfo{
+    FuncData *head;
+    FuncData *tailp;
+    int curtest;
+private:
+    FuncData *now;
+
+public:
+    FuncInfo();
+    void add(void (*func)(), char *name);
+    bool hasNext();
+    std::pair<void (*)(), char *> visit();
+    // 把注销信息的功能托付给 信息管理类，将自动程序结束时，删除动态分配的信息
+    ~FuncInfo();
+};
+
 
 // 被注册函数所调用，添加被注册test函数信息
 void add_funcdata(void (*func)(), char *funcname);
 // 删除动态生成的字符串内容，防止内存泄漏
 void delete_funcdata();
 
-// 运行所有被注册test函数
-const char * RUN  = GREEN("[  RUN  ]");
-const char * OK  = GREEN("[  FASSED  ]");
-const char * FAILED  = RED("[  FAILED  ]");
-static int testflag = 1;
 
+//运行所有被注册test函数
 int RUN_ALL_TESTS();
+
+// Info string
+static const char * RUN  =      GREEN("[  RUN     ]");
+static const char * OK  =       GREEN("[  PASSED  ]");
+static const char * FAILED  =     RED("[  FAILED  ]");
+static const char * FAILURE  =    RED("[  FAILURE ]");
+static const char * UNPASSED  =   RED("[  UNPASSED]");
 
 
 

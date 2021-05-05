@@ -3,9 +3,12 @@
 
 #define JLOG_H
 
+
+// #define ISIGNORE_LOG // 禁止LOG功能	
+
 #ifdef ISIGNORE_LOG
 
-#define LOG(fmt, args..) {}
+#define LOG(fmt, args...) {}
 
 #else
 

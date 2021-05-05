@@ -41,7 +41,8 @@ int main(){
 
 项目中`test.cpp`运行结果如下：
 
-![image-20210504225232757](http://static.come2rss.xyz/image-20210504225232757.png)
+![image-20210505103408361](http://static.come2rss.xyz/image-20210505103408361.png)
+
 
 在用`cmake`编译链接，可在`./build/test`下运行测试`target`二进制文件。
 
@@ -52,7 +53,34 @@ int main(){
 
 ## 技术卡点
 - 宏替换：多行宏替换，宏参数的字符串化和连接，中间层宏编写
+- 宏调试功能需要很多经验
 - 注册函数、注销函数
 - printf颜色控制
-- 单元测试方法信息注册实现方法
+- 单元测试方法信息注册实现方法，实现数据结构，动态资源管理
+- 多文件数据共享编码（C++外部链接问题）
+
+## 运行
+
+编译
+```shell
+rm build -rf
+cmake -S . -B build -D BUILD_TESTS=1 
+cmake --build build  
+```
+> `BUILD_TESTS`： `cmake`进行测试相关构建
+
+使用自定义测试框架：
+```shell
+./build/test/maintest
+```
+运行主程序：
+```shell
+./build/apps/app
+```
+自定义测试：
+```shell
+ cmake -S . -B build -D BUILD_TESTS=1 -D USE_LOG=1 && cmake --build build  && ./build/test/maintest
+ ```
+ > `BUILD_TESTS`: 构建测试
+ > `USE_LOG1`：忽略测试LOG功能
 

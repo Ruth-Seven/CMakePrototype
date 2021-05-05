@@ -8,7 +8,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(GoogleTest)
 
 # Tests need to be added as executables first
-add_executable(maintest test.cpp)
+add_executable(maintest test.cpp test2.cpp)
 
 # I'm using C++11 in the test
 target_compile_features(maintest PRIVATE cxx_std_11)
@@ -26,3 +26,10 @@ target_include_directories(maintest PRIVATE ../src)
 # You can also run examples and check the output, as well.
 add_test(NAME maintestTest COMMAND maintest) # COMMAND cna be a target
 
+
+# conditional controal test log function.
+option(USE_LOG "if you want to close test log, set it as true." OFF)
+message(${USE_LOG})
+if(USE_LOG)
+    target_compile_definitions(maintest PRIVATE ISIGNORE_LOG=1)
+endif()
